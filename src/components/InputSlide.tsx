@@ -42,7 +42,7 @@ export const InputSlide = ({ onComplete }: InputSlideProps) => {
           </h1>
         </div>
         <p className="text-white/70 mt-4 text-lg">
-          Vui lòng nhập tên 18 nam và 18 nữ tham gia
+          Vui lòng nhập tên 18 nam và 18 nam tham gia
         </p>
       </div>
 
@@ -75,7 +75,7 @@ export const InputSlide = ({ onComplete }: InputSlideProps) => {
           <div>
             <div className="text-center mb-4 bg-celebration text-primary py-3 rounded-xl">
               <h3 className="text-2xl font-bold uppercase flex items-center justify-center gap-2">
-                <span>♀</span> Danh Sách Nữ
+                <span>♂</span> Danh Sách Nam
               </h3>
             </div>
             <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
@@ -85,7 +85,7 @@ export const InputSlide = ({ onComplete }: InputSlideProps) => {
                   <Input
                     value={name}
                     onChange={(e) => handleFemaleChange(index, e.target.value)}
-                    placeholder={`Tên nữ ${index + 1}`}
+                    placeholder={`Tên nam ${index + 1}`}
                     className="text-lg py-6 border-2 border-celebration/20 focus:border-celebration"
                   />
                 </div>

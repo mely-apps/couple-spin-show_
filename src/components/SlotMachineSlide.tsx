@@ -127,7 +127,7 @@ export const SlotMachineSlide = ({
           {/* Female Slot */}
           <div className="col-span-5">
             <div className="text-center mb-3 text-primary font-bold text-xl uppercase flex items-center justify-center gap-2">
-              <span>♀</span> Nữ
+              <span>♂</span> Nam
             </div>
             <div className="bg-white rounded-2xl h-48 overflow-hidden shadow-inner border-4 border-card relative">
               <div className="absolute inset-0 flex items-center justify-center">
