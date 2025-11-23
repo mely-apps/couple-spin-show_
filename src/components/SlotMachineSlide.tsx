@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Heart, RotateCw, Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { dummyMaleNames, dummyFemaleNames } from "@/data/couples";
@@ -8,6 +8,7 @@ interface SlotMachineSlideProps {
   totalCouples: number;
   maleName: string;
   femaleName: string;
+  onNext: () => void;
 }
 
 export const SlotMachineSlide = ({
@@ -15,21 +16,36 @@ export const SlotMachineSlide = ({
   totalCouples,
   maleName,
   femaleName,
+  onNext,
 }: SlotMachineSlideProps) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [currentMaleName, setCurrentMaleName] = useState<string | null>(null);
+  const [currentFemaleName, setCurrentFemaleName] = useState<string | null>(null);
+  const spinIntervalRef = useRef<number | null>(null);
 
   const handleSpin = () => {
     if (isSpinning || showResult) return;
-    
+
+    setShowResult(false);
     setIsSpinning(true);
-    
-    // Animate for 3 seconds then show result
+
+    // Start rapidly cycling through names
+    spinIntervalRef.current = window.setInterval(() => {
+      setCurrentMaleName(dummyMaleNames[Math.floor(Math.random() * dummyMaleNames.length)]);
+      setCurrentFemaleName(dummyFemaleNames[Math.floor(Math.random() * dummyFemaleNames.length)]);
+    }, 120);
+
+    // Animate for 8 seconds then show result
     setTimeout(() => {
+      if (spinIntervalRef.current !== null) {
+        clearInterval(spinIntervalRef.current);
+        spinIntervalRef.current = null;
+      }
       setIsSpinning(false);
       setShowResult(true);
       createConfetti();
-    }, 3000);
+    }, 8000);
   };
 
   const createConfetti = () => {
@@ -97,12 +113,8 @@ export const SlotMachineSlide = ({
             <div className="bg-white rounded-2xl h-48 overflow-hidden shadow-inner border-4 border-card relative">
               <div className="absolute inset-0 flex items-center justify-center">
                 {isSpinning ? (
-                  <div className="flex flex-col gap-2 animate-slot-spin">
-                    {dummyMaleNames.map((name, idx) => (
-                      <div key={idx} className="h-48 flex items-center justify-center text-3xl font-black text-primary px-4 text-center">
-                        {name}
-                      </div>
-                    ))}
+                  <div className="text-4xl font-black text-primary px-6 text-center animate-pulse">
+                    {currentMaleName ?? ""}
                   </div>
                 ) : showResult ? (
                   <div className="text-4xl font-black text-primary px-6 text-center bg-muted rounded-xl py-8 shadow-lg animate-slide-in-up">
@@ -127,17 +139,13 @@ export const SlotMachineSlide = ({
           {/* Female Slot */}
           <div className="col-span-5">
             <div className="text-center mb-3 text-primary font-bold text-xl uppercase flex items-center justify-center gap-2">
-              <span>♂</span> Nam
+              <span>♀</span> Nữ
             </div>
             <div className="bg-white rounded-2xl h-48 overflow-hidden shadow-inner border-4 border-card relative">
               <div className="absolute inset-0 flex items-center justify-center">
                 {isSpinning ? (
-                  <div className="flex flex-col gap-2 animate-slot-spin" style={{ animationDelay: '0.3s' }}>
-                    {dummyFemaleNames.map((name, idx) => (
-                      <div key={idx} className="h-48 flex items-center justify-center text-3xl font-black text-primary px-4 text-center">
-                        {name}
-                      </div>
-                    ))}
+                  <div className="text-4xl font-black text-primary px-6 text-center animate-pulse">
+                    {currentFemaleName ?? ""}
                   </div>
                 ) : showResult ? (
                   <div className="text-4xl font-black text-primary px-6 text-center bg-muted rounded-xl py-8 shadow-lg animate-slide-in-up">
@@ -156,8 +164,8 @@ export const SlotMachineSlide = ({
 
       {/* Controls */}
       <Button
-        onClick={handleSpin}
-        disabled={isSpinning || showResult}
+        onClick={showResult ? onNext : handleSpin}
+        disabled={isSpinning}
         size="lg"
         className="mt-8 text-4xl px-16 py-8 rounded-full shadow-2xl font-black z-10 animate-slide-in-up"
         style={{ 
