@@ -41,7 +41,7 @@ export const CoverSlide = ({ onNext }: CoverSlideProps) => {
           className="text-8xl md:text-9xl font-black text-celebration mb-10 drop-shadow-2xl"
           style={{ fontFamily: "'Pacifico', cursive", textShadow: '4px 4px 0px rgba(0,0,0,0.2)' }}
         >
-          ĐÔI NAM NỮ
+          ĐÔI NAM NAM
         </h2>
 
         {/* Info Badge */}
@@ -52,7 +52,7 @@ export const CoverSlide = ({ onNext }: CoverSlideProps) => {
           <p className="text-2xl md:text-3xl text-white font-bold flex items-center gap-3">
             <span>♂</span>
             Ghép Đôi Ngẫu Nhiên
-            <span>♀</span>
+            <span>♂</span>
           </p>
         </button>
 
